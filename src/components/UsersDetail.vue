@@ -9,7 +9,7 @@
   </div>
 </div>
   </a>
-  <p :v-bind="randomAlbumID()">{{randomAlbumID()}}</p>
+  <p>{{randomAlbumID()}}</p>
 </template>
 
 <script>
@@ -36,8 +36,8 @@ export default {
   mounted() {
     axios
       .get(`${this.albums_endpoint}users/${this.userId}/albums `)
-      .then(({ data }) => {
-        this.albums = data;
+      .then(({ data }) => { data.forEach( (item) => this.albums.push(item.id) )
+        // this.albums = data;
       })
       .catch((e) => {
         console.log(e);
@@ -45,7 +45,12 @@ export default {
   },
   methods: {
     randomAlbumID(){
-        return this.albums[Math.floor(Math.random() * this.albums.length)];
+         for(let i=0; i<this.albums.length; i++){
+           let test = this.albums[i].id;
+           console.log(test)
+         }
+         return this.albums[Math.floor(Math.random() * this.albums.length)];
+        
     }
   }
 //   methods: {
