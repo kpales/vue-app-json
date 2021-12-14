@@ -9,14 +9,6 @@
             :user-fullName = user.name
            />
         </div>
-
-        <!-- <div v-for="user in users" v-bind:key="user.id" class="col-12 col-lg-4">
-          <a v-bind:href="'https://jsonplaceholder.typicode.com/users/' + user.id + '/albums'">
-          <img src="https://fakeimg.pl/300/" alt="" />
-          <p>{{ user.name }}</p>
-          <p>{{ user.username }}</p>
-          </a>
-        </div> -->
       </div>
     </div>
   </div>
@@ -34,8 +26,10 @@ export default {
     return {
       users_endpoint: "https://jsonplaceholder.typicode.com/users",
       users: [],
-      album_endpoint: "https://jsonplaceholder.typicode.com/albums",
-      album:[]
+      // album_endpoint: "https://jsonplaceholder.typicode.com/albums",
+      // album:[],
+      // photos_endpoint: "https://jsonplaceholder.typicode.com/photos",
+      // photos:[]
     };
   },
   mounted() {
@@ -51,6 +45,14 @@ export default {
       .get(this.album_endpoint)
       .then(({ data }) => {
         this.album = data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+      axios
+      .get(this.photos_endpoint)
+      .then(({ data }) => {
+        this.photos = data;
       })
       .catch((e) => {
         console.log(e);
