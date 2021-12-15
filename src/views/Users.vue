@@ -4,10 +4,10 @@
       <div class="col-12 d-flex flex-wrap">
         <div v-for="user in users" v-bind:key="user.id" class="col-3 my-2">
           <UsersDetail
-            :user-id = user.id
-            :user-name = user.username
-            :user-fullName = user.name
-           />
+            :user-id="user.id"
+            :user-name="user.username"
+            :user-fullName="user.name"
+          />
         </div>
       </div>
     </div>
@@ -26,10 +26,6 @@ export default {
     return {
       users_endpoint: "https://jsonplaceholder.typicode.com/users",
       users: [],
-      // album_endpoint: "https://jsonplaceholder.typicode.com/albums",
-      // album:[],
-      // photos_endpoint: "https://jsonplaceholder.typicode.com/photos",
-      // photos:[]
     };
   },
   mounted() {
@@ -41,23 +37,6 @@ export default {
       .catch((e) => {
         console.log(e);
       });
-          axios
-      .get(this.album_endpoint)
-      .then(({ data }) => {
-        this.album = data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-      axios
-      .get(this.photos_endpoint)
-      .then(({ data }) => {
-        this.photos = data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+  },
 };
-
 </script>

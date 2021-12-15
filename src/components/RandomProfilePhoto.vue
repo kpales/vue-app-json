@@ -3,10 +3,11 @@
     class="card-img-top"
     :src="random_photo"
     alt="Card image cap"
-    :v-bind="randomPhoto()"
+    :v-bind=randomPhotoId()
   />
-  {{ randomAlbum }}
-  {{random_photo}}
+  <p>RandomAlbum prop-getted :{{ random_album }}</p>
+  <p>Random Album data : {{ random_photo }}</p>
+  <p>Photos endpoint : {{photos_endpoint}}</p>
 </template>
 
 <script>
@@ -15,33 +16,45 @@ export default {
   props: {
     randomAlbum: Number,
   },
-  name:"RandomProfilePhoto",
+  name: "RandomProfilePhoto",
   data() {
     return {
-      photos_endpoint: "https://jsonplaceholder.typicode.com",
-      url: "https://jsonplaceholder.typicode.com/albums/1/photos",
+              random_album: this.randomAlbum,
+      //   photos_endpoint: "https://jsonplaceholder.typicode.com",
+      photos_endpoint: `https://jsonplaceholder.typicode.com/albums/${this.randomAlbum}/photos`,
       photo: [],
-      random_photo : ''
+      random_photo: "",
     };
   },
+  created(){
+ 
+  },
   mounted() {
+               console.log("RandomAlbum: " + this.randomAlbum);
+           console.log("Photos_endpoint" + this.photos_endpoint);
+           console.log("random_album: " + this.random_album)
+
+        //   console.log(this.randomAlbum);
+        //  console.log(this.photos_endpoint);
+
     axios
-      .get(`${this.photos_endpoint}/albums/${this.randomAlbum}/photos`)
-      .then(({ data }) => {data.forEach( (item) => this.photo.push(item.url) )
-        // this.photo = data;
-        // console.log(this.photo)
+      .get(this.photos_endpoint)
+      .then(({ data }) => {
+        data.forEach((item) => this.photo.push(item.url));
       })
+      // .then(response => this.photo = response)
       .catch((e) => {
         console.log(e);
-      });
+      });console.log(this.photo)
   },
-    methods: {
-    randomPhoto(){
-        this.random_photo = this.photo[Math.floor(Math.random() * this.photo.length)];
-        // console.log(this.photo.length)
-        
-    }
-  }
+  methods: {
+    randomPhotoId() {
+        this.random_photo =
+        this.photo[Math.floor(Math.random() * this.photo.length)];
+        console.log(this.random_photo);
+      return this.random_photo
+    },
+  },
 };
 </script>
 

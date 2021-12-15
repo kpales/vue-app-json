@@ -1,16 +1,16 @@
 <template>
-<a href="www.google.si">
-<div class="card" style="width: 18rem;" v-bind = randomAlbumID()>
-  <RandomProfilePhoto
-    :random-album = randomAlbum
-   />
-  <div class="card-body">
-    <h5 class="card-title">{{userFullName}}</h5>
-        <p class="card-text">{{userName}}</p>
-    <p class="card-text">{{userId}}</p>
+  <!-- <a href="www.google.si"> -->
+  <div class="card" style="width: 18rem" v-bind=randomAlbumID()>
+    <RandomProfilePhoto v-if="random_album" :random-album="random_album" />
+    <div class="card-body">
+      <h5 class="card-title">{{ userFullName }}</h5>
+      <p class="card-text">{{ userName }}</p>
+      <p class="card-text">{{ userId }}</p>
+      <p>Random album from UserDetail: {{ random_album }}</p>
+      <p>Random album function from UserDetail: {{ randomAlbumID() }}</p>
+    </div>
   </div>
-</div>
-  </a>
+  <!-- </a> -->
 </template>
 
 <script>
@@ -18,49 +18,39 @@ import axios from "axios";
 import RandomProfilePhoto from "@/components/RandomProfilePhoto.vue";
 
 export default {
-  components:{
-    RandomProfilePhoto
+  components: {
+    RandomProfilePhoto,
   },
-  props:{
+  props: {
     userName: String,
     userId: Number,
-    userFullName : String
+    userFullName: String,
   },
   name: "Users",
   data() {
     return {
-//       users_api: "https://jsonplaceholder.typicode.com/users",
-//       users: [],
-      albums_endpoint: "https://jsonplaceholder.typicode.com/",
+      albums_endpoint: `https://jsonplaceholder.typicode.com/users/${this.userId}/albums`,
       albums: [],
-      randomAlbum :null
-//       photos_api: "https://jsonplaceholder.typicode.com/albums/1/photos",
-//       user_id: [],
-//       photos: []
-     };
-   },
+      random_album: null,
+    };
+  },
   mounted() {
     axios
-      .get(`${this.albums_endpoint}users/${this.userId}/albums `)
-      .then(({ data }) => { data.forEach( (item) => this.albums.push(item.id) )
-        // this.albums = data;
+      .get(this.albums_endpoint)
+      .then(({ data }) => {
+        data.forEach((item) => this.albums.push(item.id));
       })
       .catch((e) => {
         console.log(e);
       });
   },
   methods: {
-    randomAlbumID(){
-         return this.randomAlbum = this.albums[Math.floor(Math.random() * this.albums.length)];
-        
-    }
-  }
-//   methods: {
-//     // randPhoto = () => photos[Math.floor(Math.random() * photos.length)]
-//   }
+    randomAlbumID() {
+      return this.random_album =this.albums[Math.floor(Math.random() * this.albums.length)];
+    },
+  },
 };
 </script>
 
 <style>
-
 </style>
