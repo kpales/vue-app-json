@@ -1,16 +1,20 @@
 <template>
-  <!-- <a href="www.google.si"> -->
+  <router-link :to="'/' + userId + '/album/'">
   <div class="card" style="width: 18rem" v-bind=randomAlbumID()>
-    <RandomProfilePhoto v-if="random_album" :random-album="random_album" />
+    <RandomProfilePhoto
+     v-if="random_album"
+      :random-album="random_album"
+       />
     <div class="card-body">
       <h5 class="card-title">{{ userFullName }}</h5>
       <p class="card-text">{{ userName }}</p>
       <p class="card-text">{{ userId }}</p>
       <p>Random album from UserDetail: {{ random_album }}</p>
       <p>Random album function from UserDetail: {{ randomAlbumID() }}</p>
+      <p> Data props albums[] : {{albums}}</p>
     </div>
   </div>
-  <!-- </a> -->
+  </router-link>
 </template>
 
 <script>
@@ -49,8 +53,17 @@ export default {
       return this.random_album =this.albums[Math.floor(Math.random() * this.albums.length)];
     },
   },
+  provide(){
+    return{
+      albums: this.albums
+    }
+  }
 };
 </script>
 
 <style>
+a{
+  text-decoration:none;
+  color:black;
+}
 </style>
